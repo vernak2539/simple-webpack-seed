@@ -1,26 +1,40 @@
+const pkg = require('../../package.json');
 const webpack = require('webpack');
 
-module.exports = {
-  entry: './index.js',
-  output: {
-    filename: './dist/bundle.js',
-  },
-  module: {
-    loaders: [
-      {
+const webpackPlugins = [];
+
+module.exports = (config) => {
+  webpackPlugins.push(new webpack.DefinePlugin({
+    __VERSION__: JSON.stringify(pkg.version)
+  }));
+
+  if(!config.TEST) {
+    webpackPlugins.push(new webpack.optimize.DedupePlugin());
+    webpackPlugins.push(new webpack.optimize.OccurrenceOrderPlugin());
+    webpackPlugins.push(new webpack.optimize.UglifyJsPlugin());
+  }
+
+  return {
+    entry: './src/index.js',
+    output: {
+      path: `${process.cwd()}/dist`,
+      filename: 'bundle.js',
+    },
+    module: {
+      noParse: [/sinon/],
+      loaders: [{
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel', // 'babel-loader' is also a valid name to reference
-        query: {
-          presets: ['es2015'],
-        },
+        loader: 'babel',
+        query: {}
+      }],
+      resolve: {
+        alias: {
+          sinon: 'sinon/pkg/sinon'
+        }
       },
-    ],
-  },
-  devtool: 'inline-source-map',
-  plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-  ],
-  watch: true,
+    },
+    devtool: 'source-map',
+    plugins: webpackPlugins
+  };
 };

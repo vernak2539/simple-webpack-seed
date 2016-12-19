@@ -1,13 +1,26 @@
 {
   "extends": "airbnb",
+  "globals": {
+    "describe": true,
+    "it": true,
+    "beforeEach": true,
+    "afterEach": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
-    "no-multi-spaces": "off",
-    "arrow-body-style": "off",
-    "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": true
-        }
-      ]
+    "arrow-body-style": 0,
+    "comma-dangle": 0,
+    "global-require": 0,
+    "import/no-dynamic-require": 0,
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "indent": ["error", 2, { VariableDeclarator: 1, SwitchCase: 1 }],
+    "keyword-spacing": 0,
+    "no-multi-spaces": 0,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "max-len": 0
   }
 }

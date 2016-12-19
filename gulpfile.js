@@ -1,8 +1,10 @@
 const gulp     = require('gulp');
 const workflow = require('gulp-workflow');
 
-// Load `workflow`, passing it your projects instance of `gulp`
 workflow
   .load(gulp)
-  .task('lint', 'Run all linters.', ['eslint'])
-  .task('test', 'Run the tests', ['karma']);
+  .task('lint', 'Run code linting', ['eslint'])
+  .task('test', 'Run unit tests', ['test:unit'], {
+    watch: 're-run on changes'
+  })
+  .task('build', 'Build files', ['build:js']);
